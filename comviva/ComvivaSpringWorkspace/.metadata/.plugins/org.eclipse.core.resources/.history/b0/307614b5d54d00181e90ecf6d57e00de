@@ -1,0 +1,7 @@
+package com.comviva03.postprocessing;
+
+public class Employee {
+	private int empId; 
+	private String email; 
+	private double salary; 
+}

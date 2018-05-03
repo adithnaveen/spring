@@ -1,0 +1,5 @@
+package com.comviva01;
+
+public interface IHelloService {
+
+}

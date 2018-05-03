@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans.xsd   
+       http://www.springframework.org/schema/aop   
+       http://www.springframework.org/schema/aop/spring-aop.xsd">  
+  <!--  to define aop, this is how spring container will come to know -->
+		<aop:aspectj-autoproxy/>
+		
+		<!--  all aspects entry goes here  -->
+		
+		<!-- <bean class="com.comviva.aop.aspects.LoggingBeforeAspect"/> -->
+		
+		<!-- <bean class="com.comviva.aop.aspects.LoggingAfterAspect"/> -->
+		<bean class="com.comviva.aop.aspects.LoggingAroundAspect"/>
+		<bean id="account1" class="com.comviva.aop.model.Account">
+			<property name="accNo" value="101"/>
+			<property name="accName" value="Naveen"/>
+			<property name="balance" value="10000"/>	
+		</bean>
+		
+		<bean id="account2" class="com.comviva.aop.model.Account">
+			<property name="accNo" value="201"/>
+			<property name="accName" value="Kanchan"/>
+			<property name="balance" value="20000"/>	
+		</bean>
+			
+		<bean id="caAccount" class="com.comviva.aop.bl.CAAccount">
+			<property name="acc" ref="account1"/>
+		</bean>
+		
+		<bean id="sbAccount" class="com.comviva.aop.bl.SBAccount">
+			<property name="acc" ref="account2"/>
+		</bean>
+		
+		<bean id="banking" class="com.comviva.aop.service.BankingService" 
+			autowire="byName"/>
+  </beans>

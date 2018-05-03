@@ -1,0 +1,22 @@
+package com.comviva01;
+
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+
+public class AppClient {
+	public static void main(String[] args) {
+		/*
+		 * XmlBeanFactory beanFactory = new XmlBeanFactory(new
+		 * ClassPathResource("applicationContext.xml"));
+		 */
+
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+		IHelloService helloService = (IHelloService) context.getBean("hello");
+
+		String retVal = helloService.sayHello();
+		System.out.println(retVal);
+	}
+}

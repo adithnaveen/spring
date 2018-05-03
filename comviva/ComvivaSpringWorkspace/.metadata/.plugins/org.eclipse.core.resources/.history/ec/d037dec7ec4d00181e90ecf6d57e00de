@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+
+	<bean id="questionList" class="com.naveen04.collections.QuestionBank">
+		<property name="question"
+			value="Inheritence is the feature of which language?" />
+		<property name="options">
+			<list>
+				<value>JAVA</value>
+				<value>C++</value>
+				<value>C Programming</value>
+				<value>Scala</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="addressSet" class="com.naveen04.collections.AddressSet">
+		<property name="addressSet">
+			<set>
+				<value>Richmod Road, Bengaluru</value>
+				<value>Richmod Road, Bengaluru</value>
+				<value>MG Road, Bengaluru</value>
+				<value>Cottonpet, Bengaluru</value>
+			</set>
+		</property>
+	</bean>
+
+
+	<bean id="accountMap" class="com.naveen04.collections.AccountMap">
+		<property name="accountMap">
+			<map>
+				<entry key="1001" value="20000" />
+				<entry key="1001" value="20000" />
+				<entry key="1002" value="30000" />
+				<entry key="1003" value="40000" />
+
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="myCollection" class="com.naveen04.collections.MyCollection">
+		<property name="questionBank" ref="questionList" />
+		<property name="addressSet" ref="addressSet" />
+		<!-- dont have it for map as it needs key value pair -->
+	</bean>
+
+
+
+</beans>
+
+	   					   
+

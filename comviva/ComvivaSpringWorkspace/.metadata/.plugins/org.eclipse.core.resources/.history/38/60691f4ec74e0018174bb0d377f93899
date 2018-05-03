@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:int="http://www.springframework.org/schema/integration"
+  xmlns:batch="http://www.springframework.org/schema/batch"
+  xmlns:batch-int="http://www.springframework.org/schema/batch-integration"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/batch-integration
+    http://www.springframework.org/schema/batch-integration/spring-batch-integration.xsd
+    http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/integration
+    http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    
+    <import resource="classpath:context-datasource.xml"/>
+ 
+    <!-- JobRepository and JobLauncher are configuration/setup classes -->
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+ 
+    <bean id="jobLauncher"   class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository" />
+    </bean>
+ 
+    <!-- ItemReader which reads data from XML file -->
+    <bean id="xmlItemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
+ 
+        <property name="resource" value="classpath:examResult.xml" />
+ 
+        <property name="fragmentRootElementName" value="ExamResult" />
+ 
+        <property name="unmarshaller">
+            <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+                <property name="classesToBeBound">
+                    <list>
+                        <value>com.naveen.springbatch.model.ExamResult</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+ 
+    <!-- ItemWriter which writes data to database -->
+    <bean id="databaseItemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+        <property name="dataSource" ref="dataSource" />
+        <property name="sql">
+            <value>
+                <![CDATA[        
+                    insert into EXAM_RESULT(STUDENT_NAME, DOB, PERCENTAGE) 
+                    values (?, ?, ?)
+                ]]>
+            </value>
+        </property>
+ 
+        <!-- We need a custom setter to handle the conversion between Jodatime LocalDate and MySQL DATE -->
+        <property name="ItemPreparedStatementSetter">
+            <bean class="com.naveen.springbatch.ExamResultItemPreparedStatementSetter" />
+        </property>
+  </bean>
+ 
+    <!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
+    <bean id="itemProcessor" class="com.comviva.springbatch.ExamResultItemProcessor" />
+ 
+    <!-- Optional JobExecutionListener to perform business logic before and after the job -->
+    <bean id="jobListener" class="com.comviva.springbatch.ExamResultJobListener" />
+ 
+    <!-- Step will need a transaction manager -->
+    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+ 
+    <!-- Actual Job -->
+    <batch:job id="examResultJob">
+        <batch:step id="step1">
+            <batch:tasklet transaction-manager="transactionManager">
+                <batch:chunk reader="xmlItemReader" writer="databaseItemWriter"
+                    processor="itemProcessor" commit-interval="10" />
+            </batch:tasklet>
+        </batch:step>
+        <batch:listeners>
+            <batch:listener ref="jobListener" />
+        </batch:listeners>
+    </batch:job>
+ 
+</beans>       

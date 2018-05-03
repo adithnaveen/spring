@@ -1,0 +1,11 @@
+package com.comviva.db;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class DBClient {
+	public static void main(String[] args) {
+		ApplicationContext context = new 
+			ClassPathXmlApplicationContext("springdb.xml");
+	}
+}

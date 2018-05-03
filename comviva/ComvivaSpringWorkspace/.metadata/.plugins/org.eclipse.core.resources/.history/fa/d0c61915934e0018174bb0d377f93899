@@ -1,0 +1,19 @@
+package com.comviva.aop.bl;
+
+import com.comviva.aop.model.Account;
+
+public class CAAccount {
+	private Account acc;
+	
+	public Account getAcc(int x) {
+		return acc;
+	}
+
+	public void setAcc(Account acc) {
+		this.acc = acc;
+	}
+
+	public double showBalance(){
+		return acc.getBalance();
+	}
+}

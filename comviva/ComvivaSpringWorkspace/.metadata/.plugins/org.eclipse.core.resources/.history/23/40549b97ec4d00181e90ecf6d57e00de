@@ -1,0 +1,23 @@
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class ClientApp {
+	public static void main(String[] args) {
+		ApplicationContext context = new 
+			ClassPathXmlApplicationContext("collectionApplication.xml");
+		QuestionBank qb = (QuestionBank) context.getBean("questionList");
+		System.out.println(qb);
+		
+		AddressSet myAddress = context.getBean("addressSet", AddressSet.class);
+		System.out.println(myAddress);
+		
+		AccountMap aMap = (AccountMap) context.getBean("accountMap");
+		
+		System.out.println(aMap);
+		
+		System.out.println("-------------------------------------------------------------");
+		MyCollection myColl = context.getBean("myCollection", MyCollection.class);
+		System.out.println(myColl);
+	}
+}

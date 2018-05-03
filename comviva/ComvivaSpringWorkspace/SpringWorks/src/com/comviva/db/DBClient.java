@@ -1,0 +1,32 @@
+package com.comviva.db;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class DBClient {
+	public static void main(String[] args) {
+		ApplicationContext context = new 
+			ClassPathXmlApplicationContext("springdb.xml");
+		
+		StudentJDBCTemplate jdbcTemplate = 
+				(StudentJDBCTemplate) 
+				context.getBean("studentJDBCTemplate");
+		
+		
+		// jdbcTemplate.create(102, "Geetha", 27);
+		
+//		Student student = jdbcTemplate.getStudent(101); 
+//		System.out.println("Student Id " + student.getId());
+//		System.out.println("Student Name " + student.getName());
+//		System.out.println("Student AGe "+ student.getAge());
+	
+		List<Student> students = jdbcTemplate.listStudents(); 
+		
+		
+		students.forEach(System.out :: println);
+	
+	
+	}
+}

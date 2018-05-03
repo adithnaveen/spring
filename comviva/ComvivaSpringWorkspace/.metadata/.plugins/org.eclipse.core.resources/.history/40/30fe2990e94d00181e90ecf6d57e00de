@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- to invoke post processor -->
+
+ <bean class="com.comviva03.postprocessing.EmployeePostProcess"/>
+ 
+ 
+	<context:annotation-config/>
+	<context:component-scan base-package="com.naveen03.beanautowire01" />
+ 
+ 	<bean id="screen" class="com.naveen03.beanautowire01.Screen">
+		<property name="glassType" value="tuffen" />
+		<property name="len" value="5" />
+		<property name="bre" value="3" />
+	</bean>
+
+	<bean id="speaker" class="com.naveen03.beanautowire01.Speaker">
+		<property name="type" value="mono" />
+		<property name="volLevels" value="10" />
+	</bean>
+
+	<bean id="camera" class="com.naveen03.beanautowire01.Camera">
+		<property name="type" value="vga" />
+	</bean>
+
+	<bean id="mobile" class="com.naveen03.beanautowire01.Mobile">
+		<property name="camera" ref="camera"/>
+		<property name="speaker" ref="speaker"/>
+		<property name="scr" ref="screen"/>
+	</bean>
+ 
+
+ 
+
+</beans>
+
+	   					   
+

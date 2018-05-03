@@ -1,0 +1,17 @@
+package com.comviva01;
+
+public class DefaultHello implements IHelloService{
+
+	@Override
+	public String sayHello() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sayHello(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

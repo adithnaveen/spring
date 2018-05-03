@@ -1,0 +1,6 @@
+package com.comviva01;
+
+public interface IHelloService {
+	public String sayHello();
+	public String sayHello(String name)''
+}

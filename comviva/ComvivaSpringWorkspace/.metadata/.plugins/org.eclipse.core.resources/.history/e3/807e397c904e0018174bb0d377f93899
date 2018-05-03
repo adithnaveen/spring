@@ -1,0 +1,13 @@
+package com.comviva.aop.aspects;
+
+import org.aspectj.lang.annotation.Aspect;
+
+@Aspect
+public class LoggingBeforeAspect {
+
+	
+	public void logBefore(){
+		// any Business Logic can go here 
+		System.out.println("You are logged Before invocation... ");
+	}
+}

@@ -1,0 +1,19 @@
+package com.comviva.aop.aspects;
+
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
+@Aspect
+public class LoggingBeforeAspect {
+
+	// @Before(value="execution(public double getBalance())")
+//	@Before(value="execution(public double com.comviva.aop.bl.CAAccount.showBalance())")
+	
+	@Before(value="execution(public * get*())")
+	public void logBefore(){
+		// any Business Logic can go here 
+		System.out.println("You are logged Before invocation... ");
+	}
+	
+	
+}

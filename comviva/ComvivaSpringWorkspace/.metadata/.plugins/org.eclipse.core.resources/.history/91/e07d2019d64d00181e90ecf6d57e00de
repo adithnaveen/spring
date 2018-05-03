@@ -1,0 +1,15 @@
+package com.comviva03.postprocessing;
+
+public class Employee {
+	private int empId; 
+	private String email; 
+	private double salary; 
+	private Name name; 
+	
+	public void init(){
+		System.out.println("init in Employee");
+	}
+	public void destory(){
+		System.out.println("destory in Employee");
+	}
+}

@@ -1,0 +1,13 @@
+package com.comviva03.postprocessing;
+
+public class Name {
+	private String firstName; 
+	private String lastName; 
+	
+	public void init(){
+		System.out.println("init in Name");
+	}
+	public void destory(){
+		System.out.println("destory in Name");
+	}
+}

@@ -1,0 +1,31 @@
+package com.comviva01;
+
+public class DefaultHello implements IHelloService{
+
+	private String name; 
+	private String city; 
+	
+	public DefaultHello(){
+		System.out.println("DefaultHello Default Constructor Called.. ");
+	}
+	
+	
+	public DefaultHello(String name, String city){
+		this.name = name; 
+		this.city = city; 
+	}
+	
+	
+	@Override
+	public String sayHello() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String sayHello(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

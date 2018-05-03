@@ -1,0 +1,133 @@
+package com.comviva.db;
+
+import java.sql.Types;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.object.StoredProcedure;
+
+public class StudentJDBCTemplate implements StudentDAO {
+	private DataSource dataSource;
+	private JdbcTemplate jdbcTemplateObject;
+	private SimpleJdbcCall simpleJdbcCall;
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
+
+	}
+
+	private class StudentSP extends StoredProcedure {
+		private static final String SPROC_NAME = "PR_GETRECORD";
+
+		public StudentSP(DataSource datasource) {
+			super(datasource, SPROC_NAME);
+			declareParameter(new SqlParameter("pr_id", Types.INTEGER)); // declaring
+																		// sql
+																		// in
+																		// parameter
+																		// to
+																		// pass
+																		// input
+			declareParameter(new SqlOutParameter("pr_name", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("pr_age", Types.INTEGER));
+
+			// declaring
+
+		}
+
+		public Student execute(int sid) {
+			Map<String, Object> results = super.execute(sid);
+
+			Student student = new Student();
+			student.setId(sid);
+			student.setName(results.get("pr_name").toString());
+			student.setAge(Integer.parseInt(results.get("pr_age").toString()));
+
+			return student;
+		}
+	}
+
+	public Student getStudentFromProcedure(int id) {
+
+		return new StudentSP(dataSource).execute(102);
+
+	}
+
+	
+	
+	
+	
+	public void create(int id, String name, Integer age) {
+		String SQL = "insert into Student (id, name, age) values (?, ?, ?)";
+
+		jdbcTemplateObject.update(SQL, id, name, age);
+		System.out.println("Created Record Name = " + name + " Age = " + age);
+		return;
+	}
+
+	public Student getStudent(Integer id) {
+		String SQL = "select * from Student where id = ?";
+		 Student student = jdbcTemplateObject.queryForObject(SQL, new Object[]
+		 { id },
+		 new BeanPropertyRowMapper<Student>(Student.class));
+
+//		System.out.println("using student mapper ");
+//		return jdbcTemplateObject.queryForObject(SQL, new Object[] { id }, new StudentMapper());
+
+		// return student;
+	}
+
+	public int getNumberOfStudents() {
+		String sql = "SELECT COUNT(*) FROM student";
+
+		int total = jdbcTemplateObject.queryForInt(sql);
+
+		return total;
+
+	}
+
+	public List<Student> listStudents() {
+		String SQL = "select * from Student";
+
+		// first way
+		List<Student> studs = jdbcTemplateObject.query(SQL, new BeanPropertyRowMapper<Student>(Student.class));
+
+		// second way
+		/*
+		 * List<Student> students = new ArrayList<Student>(); List<Map<String,
+		 * Object>> rows = jdbcTemplateObject.queryForList(SQL);
+		 * 
+		 * for(Map row : rows){ Student temp = new Student();
+		 * temp.setId(Integer.parseInt(row.get("id").toString()));
+		 * temp.setName((String)row.get("name"));
+		 * temp.setAge(Integer.parseInt(row.get("age").toString()));
+		 * 
+		 * students.add(temp); }
+		 */
+
+		return studs;
+	}
+
+	public void delete(Integer id) {
+		String SQL = "delete from Student where id = ?";
+		jdbcTemplateObject.update(SQL, id);
+		System.out.println("Deleted Record with ID = " + id);
+		return;
+	}
+
+	public void update(Integer id, Integer age) {
+		String SQL = "update Student set age = ? where id = ?";
+		jdbcTemplateObject.update(SQL, age, id);
+		System.out.println("Updated Record with ID = " + id);
+		return;
+	}
+
+}

@@ -1,0 +1,17 @@
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+	
+	@Bean(name="english")
+	public Greeting english(){
+		return new GreetEnglish();
+	}
+	
+	@Bean(name="french")
+	public Greeting french(){
+		return new GreetFrench();
+	}
+}	
